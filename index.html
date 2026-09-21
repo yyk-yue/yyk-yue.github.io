@@ -1,0 +1,1011 @@
+<html class="yk.net" data-theme="Light"><head class="yk.net">
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>
+		yyk </title>
+	<link rel="icon" href="./static/img/favicon.ico">
+	<meta name="description" content="出来后我一定洗心革面，呜呜呜">
+	<meta name="keywords" content="ykdezhuye,yyk的主页">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="./static/css/style.css">
+	<link rel="stylesheet" href="./static/css/root.css">
+	<link rel="stylesheet" type="text/css" href="./static/css/materialdesignicons.min.css">
+	
+	<!-- 加在<head>标签中 用于绘制添加标签弹出的窗口-->
+<style>
+    #popupWindow {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        padding: 20px;
+        background-color: rgba(128, 128, 128, 0.9); /* 半透明灰色背景 */
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .inputContainer {
+        margin-bottom: 10px;
+    }
+
+    .inputContainer input,
+    .inputContainer textarea {
+        width: calc(100% - 20px);
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.7); /* 半透明白色背景 */
+    }
+
+    .inputContainer button {
+        padding: 8px 20px;
+        margin: 0 10px;
+        background-color: rgba(0, 120, 212, 0.5); /* 半透明蓝色背景 */
+        color: white;
+        border: none;
+        border-radius: 40px; /* 圆角 */
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* 添加过渡效果 */
+    }
+
+    .inputContainer button:hover {
+        background-color: rgba(0, 120, 212, 0.9); /* 鼠标悬停时的背景颜色 */
+    }
+
+    /* 删除按钮样式：绝对定位到右上角，确保可见可点 */
+    .projectItem .deleteButton {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0;
+        margin: 0;
+        border: none;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.35);
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.2s ease, background-color 0.2s ease;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .projectItem {
+        position: relative;
+    }
+    .projectItem:hover .deleteButton {
+        opacity: 1;
+    }
+    .projectItem .deleteButton:hover {
+        background-color: rgba(220, 53, 69, 0.9);
+    }
+
+    /* 左侧便签添加条 */
+    .notes-add-bar {
+        display: flex;
+        gap: 5px;
+        margin-top: 10px;
+        padding: 0 8px;
+    }
+    .notes-add-bar input {
+        flex: 1;
+        min-width: 0;
+        padding: 6px 8px;
+        font-size: 12px;
+        border: none;
+        border-radius: 4px;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: inherit;
+    }
+    .notes-add-bar input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    .notes-add-bar button {
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        border: none;
+        border-radius: 4px;
+        background-color: rgba(0, 120, 212, 0.6);
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+    .notes-add-bar button:hover {
+        background-color: rgba(0, 120, 212, 1);
+    }
+
+    /* 自定义便签 li：在原有 #line li 之上加 hover 删除按钮 */
+    #line li.custom-note {
+        position: relative;
+    }
+    #line li.custom-note .note-delete-btn {
+        position: absolute;
+        top: 12px;
+        right: 4px;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background-color: rgba(220, 53, 69, 0.85);
+        color: #fff;
+        font-size: 10px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #line li.custom-note:hover .note-delete-btn {
+        opacity: 1;
+    }
+
+    /* skills 输入条与列表 */
+    .skill-add-bar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+    .skill-add-bar input {
+        flex: 1;
+        padding: 8px 10px;
+        font-size: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        background-color: rgba(255, 255, 255, 0.08);
+        color: inherit;
+    }
+    .skill-add-bar button {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: none;
+        border-radius: 4px;
+        background-color: rgba(0, 120, 212, 0.6);
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .skill-add-bar button:hover {
+        background-color: rgba(0, 120, 212, 1);
+    }
+    #skill-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    #skill-list li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        margin-bottom: 6px;
+        background-color: rgba(255, 255, 255, 0.06);
+        border-radius: 4px;
+        font-size: 14px;
+        transition: background-color 0.2s ease;
+    }
+    #skill-list li:hover {
+        background-color: rgba(255, 255, 255, 0.12);
+    }
+    #skill-list li .skill-text {
+        flex: 1;
+        word-break: break-word;
+    }
+    #skill-list li .skill-delete-btn {
+        width: 22px;
+        height: 22px;
+        margin-left: 10px;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background-color: rgba(220, 53, 69, 0.7);
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.2s ease, background-color 0.2s ease;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #skill-list li:hover .skill-delete-btn {
+        opacity: 1;
+    }
+    #skill-list li .skill-delete-btn:hover {
+        background-color: rgba(220, 53, 69, 1);
+    }
+</style>
+	
+</head>
+
+<body><div id="fps" style="z-index: 10000; position: fixed; left: 0px;"></div>
+	<div id="zyyo-loading" style="opacity: 0;">
+		<div id="zyyo-loading-center">
+		</div>
+	</div>
+	<div class="zyyo-filter"></div>
+	<div class="zyyo-main">
+		<div class="zyyo-left">
+			<div class="logo" style="background-image: url(./static/img/touxiang.jpg);">
+				<img style="position: absolute;top:-15%;left:-10%;width: 120%; aspect-ratio: 1/1;" src="./static/img/logokuang.png">
+			</div>
+			<div class="left-div left-des">
+				<div class="left-des-item"><i class="mdi mdi-information-outline"></i>China-Sichuan
+				</div>
+				<div class="left-des-item"><i class="mdi mdi-school"></i>铁道大学</div>
+			</div>
+			<div class="left-div left-tag">
+				<div class="left-tag-item">辣莫德蟀
+				</div>
+				<div class="left-tag-item">工程师
+				</div>
+				<div class="left-tag-item">大帅逼
+				</div>
+				<div class="left-tag-item">好帅一男的
+				</div>
+				<div class="left-tag-item">BIMer
+				</div>
+				<div class="left-tag-item">爱女朋友
+				</div>
+				<div class="left-tag-item">难道是天才
+				</div>
+				<div class="left-tag-item">羽毛球</div>
+			</div>
+			<div class="left-div left-time">
+				<ul id="line">
+					<li id="current-note-item">
+						<div class="focus"></div>
+						<div>一路向前冲</div>
+						<div id="current-date-text">—</div>
+					</li>
+					<!-- 用户自定义便签插入点：JS 会在这里动态插入新 li -->
+					<li id="notes-anchor" style="display:none"></li>
+					<li>
+						<div class="focus"></div>
+						<div>开始上班咯
+						</div>
+						<div>2023.7</div>
+					</li>
+					<li>
+						<div class="focus"></div>
+						<div>不知道干啥
+						</div>
+						<div>2023.3</div>
+					</li>
+					<li>
+						<div class="focus"></div>
+						<div>出来后洗心革面
+						</div>
+						<div>2022.2</div>
+					</li>
+					<li>
+						<div class="focus"></div>
+						<div>开始我的人生旅游</div>
+						<div>1997.10</div>
+					</li>
+				</ul>
+				<div class="notes-add-bar">
+					<input type="text" id="noteContentInput" placeholder="便签内容">
+					<input type="text" id="noteDateInput" placeholder="日期（可选，如 2025.3）">
+					<button onclick="addNote()" title="添加便签">+</button>
+				</div>
+			</div>
+		</div>
+		<div class="zyyo-right">
+			<header>
+				<div class="index-logo" style="background-image: url(./static/img/logo.png);">
+					<img style="position: absolute;top:-15%;left:-10%;width: 120%; aspect-ratio: 1/1;" src="./static/img/logokuang.png">
+				</div>
+				<div class="welcome">
+					hello I' m <span class="gradientText">
+						yk，lx の boyfriend </span>
+				</div>
+				<div class="description">👦 <span class="purpleText">我等你出来，呜呜呜</span>
+				</div>
+				<div class="description">📝 <span class="gradientText">Life isn't about waiting for the storm to pass, it's about learning to dance in the rain.</span> </div>
+
+				<div class="iconContainer">
+					<a class="iconItem" onclick="" target="_blank" href="https://github.com/yyk-yue">
+						<i class="mdi mdi-github"></i>
+						<div class="iconTip">Github</div>
+					</a><a class="iconItem" onclick="" target="_blank" href="https://wx.mail.qq.com/login/loginpage?auth_type=3&amp;login_exception=true">
+						<i class="mdi mdi-mail"></i>
+						<div class="iconTip">Mail</div>
+					</a><a class="iconItem" onclick="" href="https://lx-li-yyk.github.io/">
+						<i class="mdi mdi-door-sliding"></i>
+						<div class="iconTip">lxの主页</div>
+					</a><a class="iconItem" onclick="pop('./static/img/weixin.jpg')" href="javascript:void(0)">
+						<i class="mdi mdi-wechat"></i>
+						<div class="iconTip">wechat</div>
+					</a> <a class="switch" href="javascript:void(0)">
+						<div class="onoffswitch">
+							<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked="">
+							<label class="onoffswitch-label" for="myonoffswitch">
+								<span class="onoffswitch-inner"></span>
+								<span class="onoffswitch-switch"></span>
+							</label>
+						</div>
+					</a>
+				</div>
+
+				<div class="tanChiShe">
+					<img id="tanChiShe" src="./static/svg/snake-Light.svg" alt="">
+				</div>
+			</header>
+
+        <!-- 添加一个搜索框 -->
+        <content>
+			  <div class="title"><i class="mdi mdi-search-web"></i>search </div>
+    <div class="search-container" style="position: relative; background-color: rgba(128, 128, 128, 0.5); padding: 10px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <!-- Start of search engine switch -->
+        <div class="search-engine-switch" style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px;">
+            <input type="checkbox" id="searchEngineSwitch" style="display: none;">
+            <label for="searchEngineSwitch" style="cursor: pointer; font-size: 16px;">
+                <i class="mdi mdi-microsoft-bing"></i> <!-- Icon for search -->
+            </label>
+            <!-- Dropdown content -->
+            <div class="dropdown-content" style="display: none; position: absolute; background-color: #f9f9f9; min-width: 120px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); z-index: 1;">
+                <a href="#" onclick="changeSearchEngine('https://www.bing.com/search')">Bing</a>
+                <a href="#" onclick="changeSearchEngine('https://www.baidu.com/s')">Baidu</a>
+            </div>
+        </div>
+        <!-- End of search engine switch -->
+        <form id="searchForm" action="https://www.bing.com/search" method="GET" target="_blank" onsubmit="return submitForm()" style="margin-left: 60px;">
+            <input type="text" id="searchInput" name="q" placeholder="Search..." style="border: none; outline: none; width: calc(100% - 80px); padding: 8px; background-color: rgba(255, 255, 255, 0.7); border-radius: 5px;">
+            <button type="button" onclick="submitForm()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background-color: #0078d4; color: white; border: none; padding: 8px 12px; border-radius: 5px;">Search</button>
+        </form>
+    </div>
+		<content>
+			    
+		
+	<script>
+    function changeSearchEngine(url) {
+        document.getElementById('searchForm').action = url; // 修改表单提交的目标网址
+    }
+
+    function submitForm() {
+        var searchInput = document.getElementById('searchInput');
+        var searchValue = searchInput.value.trim(); // 清除搜索框中的空白
+        
+        if (searchValue) { // 确保有搜索内容
+            document.getElementById('searchForm').submit(); // 提交表单
+            searchInput.value = ''; // 清空输入框
+        }
+    }
+</script>
+			
+			    <content>
+				<div class="title"><i class=" mdi mdi-chart-bubble"></i>site </div>
+				<div class="projectList"><a class="projectItem a" target="_blank" href="https://www.bilibili.com/">
+						<div class="projectItemLeft">
+							<h1>哔哩哔哩</h1>
+							<p>一个学习的网站</p>
+						</div>
+						<div class="projectItemRight">
+							<img src="./static/img/B站@2x.png" alt="">
+						</div>
+
+					</a><a class="projectItem a" target="_blank" href="https://www.jianshu.com/u/1bb1103c1ae4">
+						<div class="projectItemLeft">
+							<h1>简书</h1>
+							<p>写写东西，记录技术</p>
+						</div>
+						<div class="projectItemRight">
+							<img src="./static/img/i2.png" alt="">
+						</div>
+
+					</a><a class="projectItem a" target="_blank" href="https://www.zhihu.com/">
+						<div class="projectItemLeft">
+							<h1>知乎</h1>
+							<p>无聊的网站</p>
+						</div>
+						<div class="projectItemRight">
+							<img src="./static/img/i3.png" alt="">
+						</div>
+
+					</a><a class="projectItem a" target="_blank" href="https://chat.openai.com/">
+						<div class="projectItemLeft">
+							<h1>Chat GPT</h1>
+							<p>chatgpt next web</p>
+						</div>
+						<div class="projectItemRight">
+							<img src="./static/img/chat gpt.png" alt="">
+						</div>
+						
+					</a><a class="projectItem a" target="_blank" href="https://v.qq.com/">
+						<div class="projectItemLeft">
+							<h1>腾讯视频</h1>
+							<p>看片用的，摸摸鱼</p>
+						</div>
+						<div class="projectItemRight">
+							<img src="./static/img/摸鱼.png" alt="">
+						</div>
+						
+					</a><a class="projectItem a" target="_blank" href="https://www.cnki.net/index/">
+						<div class="projectItemLeft">
+							<h1>知网</h1>
+							<p>没什么卵用</p>
+						</div>
+						<div class="projectItemRight">
+							<img src="./static/img/知识产权.png" alt="">
+						</div>
+						
+					</a><a class="projectItem a" target="_blank" href="https://scholar.google.com/">
+						<div class="projectItemLeft">
+							<h1>谷歌学术</h1>
+							<p>有点用的网站</p>
+						</div>
+						<div class="projectItemRight">
+							<img src="./static/img/001-search.png" alt="">
+						</div>
+						
+					</a><a class="projectItem a" target="_blank" href="https://www.deepl.com/zh/translator">
+						<div class="projectItemLeft">
+							<h1>deepl翻译</h1>
+							<p>翻译翻译</p>
+						</div>
+						<div class="projectItemRight">
+							<img src="./static/img/i6.png" alt="">
+						</div>
+						</a></div>
+					<content>
+					
+				<div class="title"><i class="mdi mdi-monitor"></i>wugongmiji with no jiji</div>
+				<div id="wugongmiji-tags" class="projectList"><a class="projectItem b" href="javascript:void(0)" onclick="showPopupWindow()">
+						<div class="projectItemLeft">
+							<h1>➕</h1><h1>
+							<p>你可以添加标签</p>
+						</h1></div>
+
+					</a><a class="projectItem b" target="_blank" href="https://www.runoob.com/">
+						<div class="projectItemLeft">
+							<h1>菜鸟编程</h1>
+							<p>计算机技术学习</p>
+						</div>
+						
+						</a><a class="projectItem b" target="_blank" href="https://www.remove.bg/zh">
+						<div class="projectItemLeft">
+							<h1>remove在线抠图</h1>
+							<p>免费在线抠图，告别ps</p>
+						</div>
+						
+						</a><a class="projectItem b" target="_blank" href="https://www.iconfont.cn/">
+						<div class="projectItemLeft">
+							<h1>矢量图标库</h1>
+							<p>下载小图标，画图用</p>
+						</div>
+						
+					</a></div>	
+				
+			 <!-- 弹出窗口 -->
+            <div id="popupWindow">
+    <div class="inputContainer">
+        <input type="text" id="projectNameInput" placeholder="标签名称">
+    </div>
+    <div class="inputContainer">
+        <textarea id="projectDescriptionInput" placeholder="标签描述"></textarea>
+    </div>
+    <div class="inputContainer">
+        <input type="text" id="projectLinkInput" placeholder="相关链接">
+    </div>
+    <button onclick="createProject()">确定</button>
+    <button onclick="closePopupWindow()">取消</button>
+    </div>
+
+    <!-- 标签列表 -->
+    <div class="projectList">
+    <!-- 这里是已有的标签列表 -->
+	</a></div>	
+            
+            
+                <div class="title">
+					<i class="mdi mdi-vacuum-outline"></i>
+					skills
+				    </div>
+				    <div class="skill">
+				        <div class="skill-add-bar">
+				            <input type="text" id="skillInput" placeholder="输入一项能力，回车或点 + 添加">
+				            <button onclick="addSkill()" title="添加技能">+</button>
+				        </div>
+				        <ul id="skill-list"></ul>
+			        </div>
+
+		        </div>
+	        </content></content></content></content></div>
+				 
+
+	<div class="tc">
+		<div onclick="" class="tc-main">
+			<img class="tc-img" src="" alt="" srcset="">
+		</div>
+
+	</div>
+	
+
+	
+	
+<!-- JavaScript 添加标签的代码（云端同步版） -->
+<script>
+// =================== 配置区：请填入你自己的 JSONBin 凭据 ===================
+// 步骤：注册 https://jsonbin.io → 创建 bin（初始内容 {"projects": []} ）→ 复制 BIN ID → 复制 API Key
+const JSONBIN_BIN_ID   = '6ab0fa82ac6210605ae54489';    // 替换为 Bin ID
+const JSONBIN_API_KEY  = '$2a$10$NwPIamkSbvqNMKzNB/Sr9uVoqLWU9prOp9ZnI2UW4JV.Rrl3EZpZm';   // 替换为 X-Master-Key
+const JSONBIN_BASE_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+// =========================================================================
+
+// 兼容旧版本：如果未配置，回退到 localStorage（避免页面直接报错）
+const USE_REMOTE = JSONBIN_BIN_ID !== 'YOUR_BIN_ID' && JSONBIN_API_KEY !== 'YOUR_API_KEY';
+
+// 从云端读取所有项目
+// 兼容两种结构：{"projects": [...]}（推荐）或旧版 [ ... ]
+// 注意：projects/notes/skills 共用同一个 bin，所有读写都走底层 fetchBinRecord/saveBinRecord，
+// 避免单字段 PUT 把其他字段覆盖丢失
+async function fetchProjectsRemote() {
+    // 直接走底层 fetchBinRecord，确保多字段结构一致
+    const record = await fetchBinRecord();
+    return record.projects;
+}
+async function saveProjectsRemote(projects) {
+    const record = await fetchBinRecord();
+    record.projects = projects;
+    await saveBinRecord(record);
+}
+
+// localStorage 回退方案
+function fetchProjectsLocal() {
+    return Promise.resolve(JSON.parse(localStorage.getItem('projects') || '[]'));
+}
+function saveProjectsLocal(projects) {
+    localStorage.setItem('projects', JSON.stringify(projects));
+    return Promise.resolve();
+}
+
+// 统一封装
+async function fetchProjects() {
+    return USE_REMOTE ? await fetchProjectsRemote() : await fetchProjectsLocal();
+}
+async function saveProjects(projects) {
+    return USE_REMOTE ? await saveProjectsRemote(projects) : await saveProjectsLocal(projects);
+}
+
+// =================== 底层：读写整个 bin record（支持 projects/notes/skills 多字段）===================
+// 数据结构示例：
+// {
+//   "projects": [ {"name":"...", "description":"...", "link":"..."} ],
+//   "notes":    [ {"content":"...", "date":"2025.3"} ],
+//   "skills":   ["Python", "PyTorch", ...]
+// }
+async function fetchBinRecord() {
+    if (USE_REMOTE) {
+        const res = await fetch(JSONBIN_BASE_URL + '/latest', {
+            headers: { 'X-Master-Key': JSONBIN_API_KEY }
+        });
+        if (!res.ok) throw new Error('读取失败 (HTTP ' + res.status + ')');
+        const data = await res.json();
+        let record = data.record;
+        // 兼容旧版裸数组（自动迁移到新结构）
+        if (Array.isArray(record)) record = { projects: record, notes: [], skills: [] };
+        if (!record || typeof record !== 'object') record = {};
+        if (!Array.isArray(record.projects)) record.projects = [];
+        if (!Array.isArray(record.notes))   record.notes   = [];
+        if (!Array.isArray(record.skills))  record.skills  = [];
+        return record;
+    } else {
+        return {
+            projects: JSON.parse(localStorage.getItem('projects') || '[]'),
+            notes:    JSON.parse(localStorage.getItem('notes')    || '[]'),
+            skills:   JSON.parse(localStorage.getItem('skills')   || '[]')
+        };
+    }
+}
+
+async function saveBinRecord(record) {
+    if (USE_REMOTE) {
+        const res = await fetch(JSONBIN_BASE_URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': JSONBIN_API_KEY
+            },
+            body: JSON.stringify(record)
+        });
+        if (!res.ok) throw new Error('保存失败 (HTTP ' + res.status + ')');
+    } else {
+        localStorage.setItem('projects', JSON.stringify(record.projects || []));
+        localStorage.setItem('notes',    JSON.stringify(record.notes    || []));
+        localStorage.setItem('skills',   JSON.stringify(record.skills   || []));
+    }
+}
+
+// notes 派生
+async function fetchNotes() {
+    const record = await fetchBinRecord();
+    return record.notes;
+}
+async function saveNotes(notes) {
+    const record = await fetchBinRecord();
+    record.notes = notes;
+    await saveBinRecord(record);
+}
+
+// skills 派生
+async function fetchSkills() {
+    const record = await fetchBinRecord();
+    return record.skills;
+}
+async function saveSkills(skills) {
+    const record = await fetchBinRecord();
+    record.skills = skills;
+    await saveBinRecord(record);
+}
+
+// =================== 实时日期：只到年月日 ===================
+function updateCurrentDate() {
+    const el = document.getElementById('current-date-text');
+    if (!el) return;
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    el.textContent = `${y}.${m}.${d}`;
+}
+updateCurrentDate();
+setInterval(updateCurrentDate, 60 * 1000); // 每分钟检查一次（跨日时自动更新）
+
+// =================== 左侧便签：构建 / 添加 / 删除 ===================
+function buildNoteItem(note) {
+    const li = document.createElement('li');
+    li.classList.add('custom-note');
+
+    const focusDot = document.createElement('div');
+    focusDot.className = 'focus';
+
+    const contentDiv = document.createElement('div');
+    contentDiv.textContent = note.content;
+
+    const dateDiv = document.createElement('div');
+    dateDiv.textContent = note.date || '';
+
+    li.appendChild(focusDot);
+    li.appendChild(contentDiv);
+    li.appendChild(dateDiv);
+
+    // 删除按钮
+    const delBtn = document.createElement('button');
+    delBtn.className = 'note-delete-btn';
+    delBtn.type = 'button';
+    delBtn.title = '删除';
+    delBtn.innerHTML = '×';
+    delBtn.addEventListener('click', async function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!confirm('确定删除这条便签吗？')) return;
+        try {
+            li.style.opacity = '0.4';
+            const all = await fetchNotes();
+            const idx = all.findIndex(function(n) {
+                return n.content === note.content && n.date === note.date;
+            });
+            if (idx !== -1) {
+                all.splice(idx, 1);
+                await saveNotes(all);
+            }
+            if (li.parentNode) li.parentNode.removeChild(li);
+        } catch (e) {
+            alert('删除失败：' + e.message);
+            li.style.opacity = '1';
+        }
+    });
+    li.appendChild(delBtn);
+
+    return li;
+}
+
+async function addNote() {
+    const contentInput = document.getElementById('noteContentInput');
+    const dateInput = document.getElementById('noteDateInput');
+    const content = contentInput.value.trim();
+    const date = dateInput.value.trim();
+    if (!content) {
+        alert('请输入便签内容');
+        return;
+    }
+
+    const note = { content: content, date: date };
+
+    // 乐观插入到 #notes-anchor 之前
+    const anchor = document.getElementById('notes-anchor');
+    const li = buildNoteItem(note);
+    li.style.opacity = '0.5';
+    anchor.parentNode.insertBefore(li, anchor);
+
+    try {
+        const all = await fetchNotes();
+        all.push(note);
+        await saveNotes(all);
+        li.style.opacity = '1';
+        contentInput.value = '';
+        dateInput.value = '';
+    } catch (e) {
+        alert('添加失败：' + e.message);
+        if (li.parentNode) li.parentNode.removeChild(li);
+    }
+}
+
+async function loadNotes() {
+    const anchor = document.getElementById('notes-anchor');
+    try {
+        const notes = await fetchNotes();
+        notes.forEach(function(note) {
+            anchor.parentNode.insertBefore(buildNoteItem(note), anchor);
+        });
+    } catch (e) {
+        console.error('便签加载失败：', e);
+    }
+}
+
+// =================== skills：构建 / 添加 / 删除 ===================
+function buildSkillItem(skillText) {
+    const li = document.createElement('li');
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'skill-text';
+    textSpan.textContent = skillText;
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'skill-delete-btn';
+    delBtn.type = 'button';
+    delBtn.title = '删除';
+    delBtn.innerHTML = '×';
+    delBtn.addEventListener('click', async function(event) {
+        event.preventDefault();
+        if (!confirm('确定删除技能 "' + skillText + '" 吗？')) return;
+        try {
+            li.style.opacity = '0.4';
+            const all = await fetchSkills();
+            const idx = all.indexOf(skillText);
+            if (idx !== -1) {
+                all.splice(idx, 1);
+                await saveSkills(all);
+            }
+            if (li.parentNode) li.parentNode.removeChild(li);
+        } catch (e) {
+            alert('删除失败：' + e.message);
+            li.style.opacity = '1';
+        }
+    });
+
+    li.appendChild(textSpan);
+    li.appendChild(delBtn);
+    return li;
+}
+
+async function addSkill() {
+    const input = document.getElementById('skillInput');
+    const text = input.value.trim();
+    if (!text) {
+        alert('请输入技能内容');
+        return;
+    }
+
+    const list = document.getElementById('skill-list');
+    const li = buildSkillItem(text);
+    li.style.opacity = '0.5';
+    list.appendChild(li);
+
+    try {
+        const all = await fetchSkills();
+        // 防重复（可选）
+        if (all.indexOf(text) !== -1) {
+            alert('该技能已存在');
+            if (li.parentNode) li.parentNode.removeChild(li);
+            return;
+        }
+        all.push(text);
+        await saveSkills(all);
+        li.style.opacity = '1';
+        input.value = '';
+    } catch (e) {
+        alert('添加失败：' + e.message);
+        if (li.parentNode) li.parentNode.removeChild(li);
+    }
+}
+
+async function loadSkills() {
+    const list = document.getElementById('skill-list');
+    try {
+        const skills = await fetchSkills();
+        skills.forEach(function(text) {
+            list.appendChild(buildSkillItem(text));
+        });
+    } catch (e) {
+        console.error('技能加载失败：', e);
+    }
+}
+
+// 回车快捷添加技能
+window.addEventListener('DOMContentLoaded', function() {
+    const skillInput = document.getElementById('skillInput');
+    if (skillInput) {
+        skillInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); addSkill(); }
+        });
+    }
+    const noteContentInput = document.getElementById('noteContentInput');
+    if (noteContentInput) {
+        noteContentInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); addNote(); }
+        });
+    }
+    const noteDateInput = document.getElementById('noteDateInput');
+    if (noteDateInput) {
+        noteDateInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); addNote(); }
+        });
+    }
+});
+
+// 构建一个项目 DOM 元素（含删除按钮）
+function buildProjectItem(project) {
+    var newProjectItem = document.createElement('a');
+    newProjectItem.classList.add('projectItem');
+    newProjectItem.target = '_blank';
+    newProjectItem.href = project.link || 'javascript:void(0)';
+
+    var projectItemLeft = document.createElement('div');
+    projectItemLeft.classList.add('projectItemLeft');
+
+    var projectNameHeader = document.createElement('h1');
+    projectNameHeader.textContent = project.name;
+
+    var projectDescriptionText = document.createElement('p');
+    projectDescriptionText.textContent = project.description;
+
+    projectItemLeft.appendChild(projectNameHeader);
+    projectItemLeft.appendChild(projectDescriptionText);
+    newProjectItem.appendChild(projectItemLeft);
+
+    // 删除按钮（hover 时显示，绝对定位右上角）
+    var deleteButton = document.createElement('button');
+    deleteButton.classList.add('deleteButton');
+    deleteButton.type = 'button';
+    deleteButton.title = '删除';
+    deleteButton.innerHTML = '<i class="mdi mdi-delete"></i>';
+    deleteButton.addEventListener('click', async function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!confirm('确定删除 "' + project.name + '" 吗？')) return;
+        try {
+            newProjectItem.style.opacity = '0.4';
+            const all = await fetchProjects();
+            // 按 name+link+description 三元组定位
+            const idx = all.findIndex(function(p) {
+                return p.name === project.name &&
+                       p.link === project.link &&
+                       p.description === project.description;
+            });
+            if (idx !== -1) {
+                all.splice(idx, 1);
+                await saveProjects(all);
+            }
+            if (newProjectItem.parentNode) {
+                newProjectItem.parentNode.removeChild(newProjectItem);
+            }
+        } catch (e) {
+            alert('删除失败：' + e.message);
+            newProjectItem.style.opacity = '1';
+        }
+    });
+    newProjectItem.appendChild(deleteButton);
+
+    return newProjectItem;
+}
+
+// 弹窗显示/隐藏
+function showPopupWindow() {
+    document.getElementById('popupWindow').style.display = 'block';
+}
+function closePopupWindow() {
+    document.getElementById('popupWindow').style.display = 'none';
+}
+
+// 添加项目
+async function createProject() {
+    var projectNameInput = document.getElementById('projectNameInput');
+    var projectDescriptionInput = document.getElementById('projectDescriptionInput');
+    var projectLinkInput = document.getElementById('projectLinkInput');
+
+    var projectName = projectNameInput.value.trim();
+    var projectDescription = projectDescriptionInput.value.trim();
+    var projectLink = projectLinkInput.value.trim();
+
+    if (projectName === '') {
+        alert('请输入标签名称');
+        return;
+    }
+    if (projectLink === '') {
+        alert('请输入相关链接');
+        return;
+    }
+
+    var newProject = {
+        name: projectName,
+        description: projectDescription,
+        link: projectLink
+    };
+
+    // 乐观更新 UI：先显示出来
+    var container = document.getElementById('wugongmiji-tags');
+    var item = buildProjectItem(newProject);
+    item.style.opacity = '0.5';
+    container.appendChild(item);
+
+    try {
+        var projects = await fetchProjects();
+        projects.push(newProject);
+        await saveProjects(projects);
+        item.style.opacity = '1';
+
+        // 关闭弹窗、清空输入
+        document.getElementById('popupWindow').style.display = 'none';
+        projectNameInput.value = '';
+        projectDescriptionInput.value = '';
+        projectLinkInput.value = '';
+    } catch (e) {
+        alert('添加失败：' + e.message + '\n请检查 JSONBin 配置是否正确，或网络是否畅通。');
+        // 失败则回滚
+        if (item.parentNode) item.parentNode.removeChild(item);
+    }
+}
+
+// 页面加载时从云端拉取数据并渲染
+async function loadProjects() {
+    var container = document.getElementById('wugongmiji-tags');
+    try {
+        var projects = await fetchProjects();
+        projects.forEach(function(project) {
+            container.appendChild(buildProjectItem(project));
+        });
+    } catch (e) {
+        console.error('wugongmiji 加载失败：', e);
+        var tip = document.createElement('div');
+        tip.style.cssText = 'width:100%;padding:10px;color:#888;font-size:12px;';
+        tip.textContent = '云端数据加载失败：' + e.message + (USE_REMOTE ? '（请检查 JSONBin 配置）' : '');
+        container.appendChild(tip);
+    }
+}
+
+window.addEventListener('load', function() {
+    loadProjects();
+    loadNotes();
+    loadSkills();
+});
+</script>
+
+	
+
+<script src="./static/js/script.js"> </script>
+
+
+
+
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({ id: "KFqltKSkJgQTGD9l", ck: "KFqltKSkJgQTGD9l" })</script>
+
+</div></body></html>
