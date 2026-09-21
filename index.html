@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <html class="yk.net" data-theme="Light"><head class="yk.net">
+=======
+﻿<html class="yk.net" data-theme="Light"><head class="yk.net">
+>>>>>>> 81ceda0c3878f6cace08a179ed44ddf3dbd86883
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,6 +59,7 @@
     .inputContainer button:hover {
         background-color: rgba(0, 120, 212, 0.9); /* 鼠标悬停时的背景颜色 */
     }
+<<<<<<< HEAD
 
     /* 删除按钮样式：绝对定位到右上角，确保可见可点 */
     .projectItem .deleteButton {
@@ -230,6 +235,8 @@
     #skill-list li .skill-delete-btn:hover {
         background-color: rgba(220, 53, 69, 1);
     }
+=======
+>>>>>>> 81ceda0c3878f6cace08a179ed44ddf3dbd86883
 </style>
 	
 </head>
@@ -269,6 +276,7 @@
 			</div>
 			<div class="left-div left-time">
 				<ul id="line">
+<<<<<<< HEAD
 					<li id="current-note-item">
 						<div class="focus"></div>
 						<div>一路向前冲</div>
@@ -276,6 +284,20 @@
 					</li>
 					<!-- 用户自定义便签插入点：JS 会在这里动态插入新 li -->
 					<li id="notes-anchor" style="display:none"></li>
+=======
+					<li>
+						<div class="focus"></div>
+						<div>...
+						</div>
+						<div>...</div>
+					</li>
+					<li>
+						<div class="focus"></div>
+						<div>一路向前冲
+						</div>
+						<div>2024.7</div>
+					</li>
+>>>>>>> 81ceda0c3878f6cace08a179ed44ddf3dbd86883
 					<li>
 						<div class="focus"></div>
 						<div>开始上班咯
@@ -300,11 +322,14 @@
 						<div>1997.10</div>
 					</li>
 				</ul>
+<<<<<<< HEAD
 				<div class="notes-add-bar">
 					<input type="text" id="noteContentInput" placeholder="便签内容">
 					<input type="text" id="noteDateInput" placeholder="日期（可选，如 2025.3）">
 					<button onclick="addNote()" title="添加便签">+</button>
 				</div>
+=======
+>>>>>>> 81ceda0c3878f6cace08a179ed44ddf3dbd86883
 			</div>
 		</div>
 		<div class="zyyo-right">
@@ -519,6 +544,7 @@
 					skills
 				    </div>
 				    <div class="skill">
+<<<<<<< HEAD
 				        <div class="skill-add-bar">
 				            <input type="text" id="skillInput" placeholder="输入一项能力，回车或点 + 添加">
 				            <button onclick="addSkill()" title="添加技能">+</button>
@@ -526,6 +552,11 @@
 				        <ul id="skill-list"></ul>
 			        </div>
 
+=======
+				        <div class="description">啊，头好痒，要长脑子了吗？
+				    </div>
+			    
+>>>>>>> 81ceda0c3878f6cace08a179ed44ddf3dbd86883
 		        </div>
 	        </content></content></content></content></div>
 				 
@@ -540,6 +571,7 @@
 
 	
 	
+<<<<<<< HEAD
 <!-- JavaScript 添加标签的代码（云端同步版） -->
 <script>
 // =================== 配置区：请填入你自己的 JSONBin 凭据 ===================
@@ -867,11 +899,45 @@ function buildProjectItem(project) {
     newProjectItem.classList.add('projectItem');
     newProjectItem.target = '_blank';
     newProjectItem.href = project.link || 'javascript:void(0)';
+=======
+ <!-- JavaScript 添加标签的代码 -->
+<script>
+    function showPopupWindow() {
+        var popupWindow = document.getElementById('popupWindow');
+        popupWindow.style.display = 'block';
+    }
+
+    function closePopupWindow() {
+        var popupWindow = document.getElementById('popupWindow');
+        popupWindow.style.display = 'none';
+    }
+
+    function createProject(projectName, projectDescription, projectLink) {
+    var projectNameInput = document.getElementById('projectNameInput');
+    var projectDescriptionInput = document.getElementById('projectDescriptionInput');
+    var projectLinkInput = document.getElementById('projectLinkInput');
+
+    var projectName = projectNameInput.value;
+    var projectDescription = projectDescriptionInput.value;
+    var projectLink = projectLinkInput.value;
+
+    if (projectName.trim() === '') {
+        alert('请输入标签名称');
+        return;
+    }
+
+    // 创建标签元素
+    var newProjectItem = document.createElement('a');
+    newProjectItem.classList.add('projectItem');
+    newProjectItem.target = '_blank';
+    newProjectItem.href = projectLink;
+>>>>>>> 81ceda0c3878f6cace08a179ed44ddf3dbd86883
 
     var projectItemLeft = document.createElement('div');
     projectItemLeft.classList.add('projectItemLeft');
 
     var projectNameHeader = document.createElement('h1');
+<<<<<<< HEAD
     projectNameHeader.textContent = project.name;
 
     var projectDescriptionText = document.createElement('p');
@@ -944,11 +1010,44 @@ async function createProject() {
         return;
     }
 
+=======
+    projectNameHeader.textContent = projectName;
+
+    var projectDescriptionText = document.createElement('p');
+    projectDescriptionText.textContent = projectDescription;
+
+    projectItemLeft.appendChild(projectNameHeader);
+    projectItemLeft.appendChild(projectDescriptionText);
+
+    newProjectItem.appendChild(projectItemLeft);
+    
+     // 创建删除按钮
+    var deleteButton = document.createElement('button');
+    //deleteButton.classList.add('deleteButton'); // 添加自定义样式类
+    deleteButton.innerHTML = '<i class="mdi mdi-delete"></i>'; // 使用 删除图标
+    deleteButton.type = 'button'; // 指定按钮类型为普通按钮
+    deleteButton.addEventListener('click', function(event) {
+        event.preventDefault(); // 阻止按钮默认行为
+        deleteProject(newProjectItem);
+    });
+
+    // 将删除按钮添加到标签元素中
+    newProjectItem.appendChild(deleteButton);
+
+    // 获取标签列表容器
+    var wugongmijiTagsContainer = document.getElementById('wugongmiji-tags');
+    // 将新标签添加到标签列表的最末尾
+    wugongmijiTagsContainer.appendChild(newProjectItem);
+
+    // 保存标签信息到localStorage
+    var projects = JSON.parse(localStorage.getItem('projects')) || [];
+>>>>>>> 81ceda0c3878f6cace08a179ed44ddf3dbd86883
     var newProject = {
         name: projectName,
         description: projectDescription,
         link: projectLink
     };
+<<<<<<< HEAD
 
     // 乐观更新 UI：先显示出来
     var container = document.getElementById('wugongmiji-tags');
@@ -996,6 +1095,76 @@ window.addEventListener('load', function() {
     loadNotes();
     loadSkills();
 });
+=======
+    projects.push(newProject);
+    localStorage.setItem('projects', JSON.stringify(projects));
+
+    // 关闭添加项目窗口
+    var popupWindow = document.getElementById('popupWindow');
+    popupWindow.style.display = 'none';
+
+    // 清空输入框
+    projectNameInput.value = '';
+    projectDescriptionInput.value = '';
+    projectLinkInput.value = '';
+}
+
+// 删除标签的函数
+function deleteProject(projectItem) {
+    // 从 DOM 中移除标签元素
+    projectItem.parentNode.removeChild(projectItem);
+
+    // 从 localStorage 中移除标签信息
+    var projects = JSON.parse(localStorage.getItem('projects')) || [];
+    var projectIndex = projects.findIndex(function(project) {
+        return project.name === projectItem.querySelector('h1').textContent;
+    });
+    if (projectIndex !== -1) {
+        projects.splice(projectIndex, 1);
+        localStorage.setItem('projects', JSON.stringify(projects));
+    }
+}
+
+window.onload = function() {
+    var projects = JSON.parse(localStorage.getItem('projects')) || [];
+    var projectList = document.querySelector('.projectList');
+
+    projects.forEach(function(project) {
+        var newProjectItem = document.createElement('a');
+        newProjectItem.classList.add('projectItem');
+        newProjectItem.target = '_blank';
+        newProjectItem.href = project.link;
+
+        var projectItemLeft = document.createElement('div');
+        projectItemLeft.classList.add('projectItemLeft');
+
+        var projectNameHeader = document.createElement('h1');
+        projectNameHeader.textContent = project.name;
+
+        var projectDescriptionText = document.createElement('p');
+        projectDescriptionText.textContent = project.description;
+
+        projectItemLeft.appendChild(projectNameHeader);
+        projectItemLeft.appendChild(projectDescriptionText);
+
+        newProjectItem.appendChild(projectItemLeft);
+
+        //projectList.insertBefore(newProjectItem, projectList.querySelector('.projectItem.b'));
+        // 获取 "wugongmiji with no jiji" 模块的标签列表容器
+		var wugongmijiTagsContainer = document.getElementById('wugongmiji-tags');
+
+		// 将新创建的标签添加到标签列表容器中
+		wugongmijiTagsContainer.appendChild(newProjectItem);
+		
+		// 从 DOM 中移除项目元素
+   //newProjectItem.parentNode.removeChild(newProjectItem);
+
+    // 从 localStorage 中删除所有项目
+    //localStorage.removeItem('projects');
+    });
+};
+
+>>>>>>> 81ceda0c3878f6cace08a179ed44ddf3dbd86883
 </script>
 
 	
